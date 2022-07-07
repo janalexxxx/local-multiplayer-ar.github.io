@@ -3,6 +3,9 @@
     <p align="center">How to setup a publicly accessible server using Uberspace & NodeJS</p>
 </p>
 
+# Part 01:
+# Setting up Uberspace
+
 ## Creating a server on Uberspace
 
 We are using Uberspace to host our server. Uberspace is simple to set up & provides us with a free & preconfigured Linux server for the first 30 days without adding any payment details.
