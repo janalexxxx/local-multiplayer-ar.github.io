@@ -208,7 +208,7 @@ public async void SendEmptyMessageToServer() {
 2. Call the created method in your script
 
 ```csharp
-Invoke(SendEmptyMessageToServer());
+Invoke("SendEmptyMessageToServer", 0f);
 ```
 
 
@@ -412,7 +412,7 @@ YourClass receivedObject = JsonUtility.FromJson<YourClass>(incomingString);
 
 6. Send bytes to your server using Websocket: `await webSocket.Send(bytes);`
 
-7. Invoke `async` method: `Invoke(SendMessage());` or `Invoke("SendMessage");`
+7. Invoke `async` method: `Invoke("SendMessage", 0f);`
 
 
 Full code:

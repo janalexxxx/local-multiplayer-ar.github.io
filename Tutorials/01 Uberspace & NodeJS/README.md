@@ -84,11 +84,11 @@ Therefore open the `Terminal` application on your Mac or `PowerShell` on Windows
 
 Enter the following command to establish a connection to your Uberspace server:
 
-    $ ssh [username]@[hostname]
+    `ssh [username]@[hostname]`
 
 This is the command that I have to use for example:
 
-    $ ssh argame@eltanin.uberspace.de
+    `ssh argame@eltanin.uberspace.de`
 
 Then when prompted confirm the connection by entering `yes` & confirm by pressing `enter`.
 
@@ -110,29 +110,29 @@ These are the commands that you will need to navigate around:
 
 #### List all visible files and folders at the current directory:
 
-    $ ls
+    `ls`
     
 
 #### List all visible & hidden files and folders at the current directory:
 
-    $ ls -a
+    `ls -a`
     
     
 #### Change directory
 
-    $ cd path/of/directory
+    `cd path/of/directory`
     
 For example to change to the `/html/nodejs-server/` directory use:
     
-    $ cd html/nodejs-server
+    `cd html/nodejs-server`
 
 If you want to move back up to the parent-directory use:
 
-    $ cd ..
+    `cd ..`
     
 If you want to move back to the root directory use:
 
-    $ cd ~
+    `cd ~`
     
     
 Tip #1: You can press `Tab` to use the auto-complete functionality and save some typing effort. 
@@ -154,7 +154,7 @@ Luckily NodeJS is already installed by default on your Uberspace. If you want to
 
 To check whether NodeJS is installed on your current system, execute the following command:
 
-    $ node
+    `node`
     
 To exit the NodeJS interface again type `.exit`.
 
@@ -165,7 +165,7 @@ To connect to any server over the internet, the server needs to have a public IP
 
 To open a port connect to your Uberspace via Command Line and input the following command:
 
-    $ uberspace port add
+    `uberspace port add`
     
 After entering this command, you should receive a confirming message like `Port 42660 will be open for TCP and UDP traffic in a few minutes.`
 
@@ -176,14 +176,14 @@ In this case `42660` is our port number. This is the port number, that we will t
 
 To get a list of currently open ports, execute the following command:
 
-    $ $ uberspace port list
+    `uberspace port list`
     
 
 ### Close open ports
 
 In case you have too many open ports, you can also close ports again by executing the following command:
 
-    $ uberspace port del YOUR_PORT_NUMBER
+    `uberspace port del YOUR_PORT_NUMBER`
 
 
 At the end of this step you should have one open port listed. Save the port number somewhere since you will need it in the next step.
@@ -234,7 +234,7 @@ Therefore connect to your Uberspace using Cyberduck, open your `nodejs-server` f
 
 Then connect to your Uberspace using the Command Line, navigate inside your `nodejs-server` folder & start your NodeJS server by executing the following command:
 
-    $ node server.js
+    `node server.js`
 
 If everything works, we should get a feedback like `Server running at http://0.0.0.0:42660/`
 
@@ -261,19 +261,19 @@ To make your NodeJS server visible to the public, you have to open a Web Backend
 
 You can create a new Web Backend by executing the following command:
 
-    $ uberspace web backend set /YOUR_DIRECTORY --http --port YOUR_PORT
+    `uberspace web backend set /YOUR_DIRECTORY --http --port YOUR_PORT`
     
 For a NodeJS server stored in the `/nodejs-server` directory and communicating via port `42660` the command would be this:
 
-    $ uberspace web backend set /nodejs-server --http --port 42660
+    `uberspace web backend set /nodejs-server --http --port 42660`
     
 To check whether you Web Backend was setup successfully, you can list all web backends by executing the following command:
     
-    $ uberspace web backend list
+    `uberspace web backend list`
     
 If something went wrong, you can delete a web backend by executing the following command:
     
-    $ uberspace web backend del /nodejs-server
+    `uberspace web backend del /nodejs-server`
     
 
 More information regarding Uberspace Web Backends can be found [here](https://manual.uberspace.de/web-backends/).
@@ -321,32 +321,32 @@ Then place this file in `~/etc/services.d` in your Uberspace.
 
 Afterwards, ask `supervisord` to look for new `.ini` files:
 
-    $ supervisorctl reread
+    `supervisorctl reread`
     
 And then start your daemon:
 
-    $ supervisorctl update
+    `supervisorctl update`
     
 
 ## Controlling a service
 
 You can start a non-running service by executing the following command:
 
-    $ supervisorctl start run-nodejs-server
+    `supervisorctl start run-nodejs-server`
 
 You can stop a running service by executing the following command:
 
-    $ supervisorctl stop run-nodejs-server
+    `supervisorctl stop run-nodejs-server`
     
 
 You can restart a service by executing the following command:
 
-    $ supervisorctl restart run-nodejs-server
+    `supervisorctl restart run-nodejs-server`
     
 
 You can get the status of all your services by executing the following command:
 
-    $ supervisorctl status
+    `supervisorctl status`
     
     
 More informations regarding daemon services can be found [here](https://manual.uberspace.de/daemons-supervisord/).
