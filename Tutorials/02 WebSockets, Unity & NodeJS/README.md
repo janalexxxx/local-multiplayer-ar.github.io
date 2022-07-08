@@ -192,15 +192,15 @@ public class WebSocketConnection : MonoBehaviour
 Tip: To test the WebSocket connection on device, add a text field to your Canvas and instead of printing directly to the console, add the messages to this text field instead. 
 
 
-### Sending an empty message to your server
+### Sending a simple message to your server
 
-1. Setup a method to send an empty message
+1. Setup a method to send a message
 
 ```csharp
 private async void SendEmptyMessageToServer() {
-    if (webSocket.State == WebSocketState.Open) {
+    if (_webSocket.State == WebSocketState.Open) {
         byte[] bytes = new byte[1] { 1 };
-        await webSocket.Send(bytes);
+        await _webSocket.Send(bytes);
     }
 }
 ```
@@ -285,7 +285,7 @@ webSocketServer.on('connection', function(client) {
     // Convert binary to string
     var dataString = new TextDecoder().decode(data);
 
-    if (typeof(dataString) === "string") {
+    if (isJSON(dataString)) {
       // Parse the data out of the message received
       const json = JSON.parse(dataString);
       console.log("incoming message");
@@ -317,6 +317,16 @@ webSocketServer.on('connection', function(client) {
 server.listen(port, function() {
   console.log(`Listening on ws://${serverAddress}:${port}/${serverDirectory}`);
 });
+
+function isJSON(string) {
+   var isJSON = true;
+   try {
+      JSON.parse(string);
+   }catch(e) {
+      isJSON = false;
+   }
+   return isJSON;
+}
 ```
 
 
