@@ -205,7 +205,7 @@ private async void SendEmptyMessageToServer() {
 }
 ```
 
-2. Call the created method in your script
+2. Call the created method in your `OnOpen()` event handler after the server opened the connection
 
 ```csharp
 Invoke("SendEmptyMessageToServer", 0f);
