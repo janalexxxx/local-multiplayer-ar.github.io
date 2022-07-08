@@ -197,9 +197,9 @@ Tip: To test the WebSocket connection on device, add a text field to your Canvas
 1. Setup a method to send an empty message
 
 ```csharp
-public async void SendEmptyMessageToServer() {
+private async void SendEmptyMessageToServer() {
     if (webSocket.State == WebSocketState.Open) {
-        byte[] bytes = new byte[0];
+        byte[] bytes = new byte[1] { 1 };
         await webSocket.Send(bytes);
     }
 }
