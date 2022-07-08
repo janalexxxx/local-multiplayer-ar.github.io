@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">Local Multiplayer AR</h1>
+    <h1 align="center">Uberspace & NodeJS</h1>
     <p align="center">How to setup a publicly accessible server using Uberspace & NodeJS</p>
 </p>
 
@@ -347,6 +347,9 @@ You can restart a service by executing the following command:
 You can get the status of all your services by executing the following command:
 
     $ supervisorctl status
+    
+    
+More informations regarding daemon services can be found [here](https://manual.uberspace.de/daemons-supervisord/).
 
 
 Congratulations! 
