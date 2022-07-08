@@ -116,6 +116,8 @@ Therefore follow these steps:
 3. Click `Add Package From Git URL`
 4. Enter URL: `https://github.com/endel/NativeWebSocket.git#upm`
 
+If there is an error, when adding the package via Package Manager, just download it directly [here](https://github.com/endel/NativeWebSocket) and drag'n'drop it into your Assets folder in Unity.
+
 
 ## Setup WebSocketConnection
 
