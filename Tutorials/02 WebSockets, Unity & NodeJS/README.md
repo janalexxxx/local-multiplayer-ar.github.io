@@ -360,6 +360,8 @@ public class AllPlayerPositions {
 
 ### Handle incoming data
 
+Important: You need to add `using System.Text` & `using System.IO` to the top of your script to use the serialization and deserialization methods.
+
 1. Convert incoming `byte[]` to `string`:
 
 ```csharp
