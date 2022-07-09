@@ -128,10 +128,13 @@ If there is an error, when adding the package via Package Manager, just download
 2. Establish a connection to your WebSockets server and subscribe to all the different available events like so: 
 
 ```csharp
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NativeWebSocket;
+using System.IO;
+using System.Text;
 
 public class WebSocketConnection : MonoBehaviour
 {
