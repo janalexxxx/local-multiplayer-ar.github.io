@@ -221,9 +221,9 @@ public enum GameObjectType {
 
 ```csharp
 public GameObjectType type;
+```
 
-// ...
-
+```csharp
 // Check enum values using a switch statement
 switch(type) {
 	case GameObjectType.Player:
@@ -235,12 +235,13 @@ switch(type) {
 	default:
 		break;
 }
+```
 
+```csharp
 // Check enum using an if statement
 if (type == GameObjectType.Player) {
 	// Do something
 }
-
 ```
 
 
@@ -248,7 +249,7 @@ if (type == GameObjectType.Player) {
 
 
 # Code Design Patterns
-### Improve your codebase using design patterns
+Improve your codebase using design patterns
 
 
 
@@ -551,3 +552,8 @@ Here are some resources for diving deeper and getting introduced to additional d
 
 * [Design Patterns in C#](https://refactoring.guru/design-patterns/csharp)
 * [Game Programming Patterns](http://gameprogrammingpatterns.com/contents.html)
+
+
+
+
+H A P P Y  C O D I N G !
