@@ -48,10 +48,10 @@ The next step is to keep your code organized. When reading through a class you n
 * Organize your class methods
 	* Explicitly label all of your methods as either 'public' or 'private'
 	* Organize similar methods into chunks and separate these chunks in your code using comments
-		* One chunk could be `Unity Event Handlers`
-		* Another chunk could be `Event Handlers`
-		* Another chunk could be `Public Methods`
-		* Another chunk could be `Private Helper Methods`
+		* One chunk could be `// Unity Event Handlers`
+		* Another chunk could be `// Event Handlers`
+		* Another chunk could be `// Public Methods`
+		* Another chunk could be `// Private Helper Methods`
 		* etc.
 	
 * Properly name your variables, methods and classes
