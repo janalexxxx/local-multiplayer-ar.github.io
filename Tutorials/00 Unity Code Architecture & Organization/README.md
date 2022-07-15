@@ -22,7 +22,7 @@ With this guide I am aiming to provide you with step-by-step instruction to guid
 The very first step is to keep the assets in your Unity project and your scene hierarchy organized. Here are a few tips, that should help you with this:
 
 * Organize your assets by keeping all assets of the same type in the same folder. Use subfolders to differentiate assets of different parts of your games.
-	* All your scripts should be in the `Scripts folder.
+	* All your scripts should be in the `Scripts` folder.
 	* All your materials should be in the `Materials` folder.
 	* All your sprites in the `Sprites` folder.
 	* etc.
