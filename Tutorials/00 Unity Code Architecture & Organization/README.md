@@ -22,8 +22,8 @@ With this guide I am aiming to provide you with step-by-step instruction to guid
 The very first step is to keep the assets in your Unity project and your scene hierarchy organized. Here are a few tips, that should help you with this:
 
 * Organize your assets by keeping all assets of the same type in the same folder. Use subfolders to differentiate assets of different parts of your games.
-	* All your scripts should be in the 'Scripts' folder.
-	* All your materials should be in the 'Materials` folder.
+	* All your scripts should be in the `Scripts folder.
+	* All your materials should be in the `Materials` folder.
 	* All your sprites in the `Sprites` folder.
 	* etc.
 
@@ -58,8 +58,8 @@ The next step is to keep your code organized. When reading through a class you n
 	* Use descriptive names. You should be able to easily refer from the name to its functionality.
 	* Use consistent naming patterns
 		* All variable names are lowercased (eg `public float waitingTime`)
-		* All private variables start with an `_` (eg a private reference to the GameManager would be called _gameManager)
-		* All boolean variables are named according to the same pattern (eg 'private bool _isGameRunning`, `private bool _hasPlayerArrivedAtDestination`)
+		* All private variables start with an `_` (eg a private reference to the GameManager would be called `_gameManager`)
+		* All boolean variables are named according to the same pattern (eg `private bool _isGameRunning`, `private bool _hasPlayerArrivedAtDestination`)
 		* All methods names are uppercased (eg `public void YourMethod()`)
 	* Make sure that every method only does one job and that this job can be clearly derived from the name. When debugging, we tend to just cram additional statements into methods that might fix the bug, but actually have nothing to do with the intended functionality of the method. This creates bugs, that are hard to debug in the future. Make sure to add additional statements to places in the code, where you would expect them. Create new methods when necessary.
 
@@ -94,7 +94,7 @@ Let the code speak to you. Use debug statements to get feedback regarding the st
 	
 * When you get an error inside the UnityEditor console, simply double-click on it and VS Studio will open up with your cursor directly at the position in the code. This way you immediately know where an error has been thrown.
 	
-* When testing your game on a mobile device you will not have direct access to the console log. In this case simple add a `TextMeshPro Text` object to the top of your Canvas and create a separate method to add your log statements to this text.
+* When testing your game on a mobile device you will not have direct access to the console log. In this case simple add a `TextMeshProUGUI` or `Text` object to the top of your Canvas and create a separate method to add your log statements to this text.
 ```csharp
 public TextMeshProUGUI textPrintOut;
 
@@ -123,7 +123,8 @@ public class Developer {
 		print("All saves have been cleared");
 	}
 	
-	[MenuItem("Developer/Unlock Skins")] {
+	[MenuItem("Developer/Unlock Skins")]
+	public static void UnlockSkins() {
 		// Unlock all skins for the player
 		print("All skins have been unlocked");
 	}
@@ -151,7 +152,7 @@ Your game consists of a lot of different building blocks. Make sure to modulariz
 	* `NPC` class that handles the NPC logic
 	* etc.
 
-* Use inheritance to create different versions of the same class. For example you can create a basic `Player` class that defines the variables and methods that every player in your game has defined. Then you can create separate implementations of players for your game using inheritance (eg. `public class Soldier : Player', `public class Wizard : Player`)
+* Use inheritance to create different versions of the same class. For example you can create a basic `Player` class that defines the variables and methods that every player in your game has defined. Then you can create separate implementations of players for your game using inheritance (eg. `public class Soldier : Player`, `public class Wizard : Player`)
 
 Aim for keeping classes as small as possible. When you feel that a class starts getting clumsy, think about how you could separate its logic into individual components.
 
@@ -170,7 +171,9 @@ A good tutorial describing the use of Prefabs and Prefab Variants can be found [
 
 # Scriptable Objects
 ## Use ScriptableObjects to manage data and settings for your game outside of individual scenes and components
-A good tutorial describing the use and implementation of ScriptableObjects can be found [here](https://www.youtube.com/watch?v=WLDgtRNK2VE&list=TLPQMTMwNzIwMjKeshyYMcdc1w&index=5. The video also includes an example project to check out the final implementation.
+A good tutorial describing the use and implementation of ScriptableObjects can be found [here](https://www.youtube.com/watch?v=WLDgtRNK2VE&list=TLPQMTMwNzIwMjKeshyYMcdc1w&index=5). The video also includes an example project to check out the final implementation.
+
+Another good tutorial can be found [here](https://www.youtube.com/watch?v=aPXvoWVabPY).
 
 
 
@@ -185,7 +188,7 @@ Here is an illustration of this architecture:
 
 ![Simple GameManager Architecture](/img/simple-gameManager-architecture.png)
 
-Make sure that 'GameManager' only stores the data and accesses the methods that it actually needs to make the game-relevant decisions. Try to store as little data as possible inside of the 'GameManager' and create new individual classes handling individual responsibilities when you feel that the `GameManager` is getting too crowded.
+Make sure that `GameManager` only stores the data and accesses the methods that it actually needs to make the game-relevant decisions. Try to store as little data as possible inside of the `GameManager` and create new individual classes handling individual responsibilities when you feel that the `GameManager` is getting too crowded.
 
 Two simple examples to illustrate:
 
