@@ -342,6 +342,8 @@ All classes that you want to convert to `byte[]` and share with the server need 
 Here is an example:
 
 ```csharp
+using System;
+
 [Serializable]
 public class PlayerPosition
 {

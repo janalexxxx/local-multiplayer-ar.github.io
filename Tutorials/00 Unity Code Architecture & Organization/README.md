@@ -32,7 +32,7 @@ The very first step is to keep the assets in your Unity project and your scene h
 	* Add all of your Canvases as children to an empty GameObject called `Canvases`
 	* Add all GameObject related to the setup of the scene, such as Camera & Lights, as children to an empty GameObject called `Setup`
 	* etc.
-	
+
 
 
 
@@ -44,7 +44,7 @@ The next step is to keep your code organized. When reading through a class you n
 	* Add all class variables to the top of your class
 	* Explicitly label all of your variables as either 'public' or 'private'
 	* Organize your variables into chunks of private variables and private variables, also sort them by type or add other subcategories that logically make sense for you
-	
+
 * Organize your class methods
 	* Explicitly label all of your methods as either 'public' or 'private'
 	* Organize similar methods into chunks and separate these chunks in your code using comments
@@ -53,7 +53,7 @@ The next step is to keep your code organized. When reading through a class you n
 		* Another chunk could be `// Public Methods`
 		* Another chunk could be `// Private Helper Methods`
 		* etc.
-	
+
 * Properly name your variables, methods and classes
 	* Use descriptive names. You should be able to easily refer from the name to its functionality.
 	* Use consistent naming patterns
@@ -78,22 +78,22 @@ Let the code speak to you. Use debug statements to get feedback regarding the st
 * Regularly print out to the console to get feedback on what has happened in your application. Use descriptive print statements hinting at where this code has been executed and what has happened. Use a string literal to log variable values at runtime to know what has been going on under the hood.
 	* Printing to the console: `print("GamePhase Attach has started");` || `Debug.Log("GamePhase Attach has started");`
 	* Printing variable values: `print($"TouchManager.OnTap: Tap received at {finger.position}");` || `Debug.Log($"TouchManager.OnTap: Tap received at {finger.position}");`
-	
+
 * Differentiate in between regular print messages, warnings and errors
 	```csharp
 		// Print a message to the console
 		Debug.Log($"This is a message from {title}");
 		print($"This is a message from {title}");
-		
+
 		// Print a warning to the console
 		Debug.LogWarning($"This is a warning from {title}");
-		
+
 		// Print an error to the console
 		Debug.LogError($"This is an error from {title}");
 	```
-	
+
 * When you get an error inside the UnityEditor console, simply double-click on it and VS Studio will open up with your cursor directly at the position in the code. This way you immediately know where an error has been thrown.
-	
+
 * When testing your game on a mobile device you will not have direct access to the console log. In this case simple add a `TextMeshProUGUI` or `Text` object to the top of your Canvas and create a separate method to add your log statements to this text.
 ```csharp
 public TextMeshProUGUI textPrintOut;
@@ -122,7 +122,7 @@ public class Developer {
 		// Clear all of your saved data
 		print("All saves have been cleared");
 	}
-	
+
 	[MenuItem("Developer/Unlock Skins")]
 	public static void UnlockSkins() {
 		// Unlock all skins for the player
@@ -145,7 +145,7 @@ Your game consists of a lot of different building blocks. Make sure to modulariz
 	* `TouchManager` that manages touch input
 	* `NetworkingManager` that manages the communication with the server
 	* etc.
-	
+
 * Create separate classes for each other part of the game
 	* `GameSettings` class that holds all of the setting for your game
 	* `Player` class that handles the player logic
@@ -183,6 +183,11 @@ Another good tutorial can be found [here](https://www.youtube.com/watch?v=aPXvoW
 When building your game, your code gets more and more complicated over time. It is absolutely crucial to retain control over your code by managing the flow of information inside of it. An easy way to do that is to lay out a simple architecture that defines how your different classes should communicate with each other.
 
 The most simple architecture is to use the `GameManager` class as the central point of decision-making and event-handling inside of your application. This means that ALL game-relevant events are being handled by the `GameManager`. The `GameManager` is informed about each event and then handles the response by changing the necessary settings and calling all needed methods of other classes to respond.
+
+The `GameManager` has two responsibilities:
+
+1. Starting the game
+2. Handling game-relevant events of other managers
 
 Here is an illustration of this architecture:
 
@@ -316,7 +321,7 @@ public class ServiceLocator : MonoBehaviour
     }
 ```
 
-2. Create an empty GameObject in the scene and call it "ServiceLocator"
+2. Create an empty GameObject in the scene and call it `ServiceLocator`. Add the `ServiceLocator` script to it.
 
 3. Add all services needed as children to the `ServiceLocator` gameObject (eg `GameManager`, `TouchManager`, `GameSettings`, etc.)
 
@@ -338,7 +343,7 @@ void Awake() {
 
 ## Observer Pattern
 ### Use the Observer Pattern to subscribe and unsuscribe to events inside different classes
-The Observer Pattern is an easy way for a class to get notified about events of another class. It can simply subscribe and unsubscribe to these events.
+The Observer Pattern is an easy way for a class to get notified about events of another class. It can simply subscribe and unsubscribe to these events. This way it enables one-to-many communication.
 
 You have been using this pattern already in your `TouchManager` class, when you subscribed to the touch events of the `Lean.Touch` package:
 
@@ -369,21 +374,21 @@ Here is an example of how to implement this pattern for yourself. In this exampl
 ```csharp
 public class PopAudioPlayer : MonoBehaviour {
 	private AudioSource _audioSource;
-	
+
 	private void Awake() => _audioSource = GetComponent<AudioSource>();
-	
+
 	// Subscribe to the event
 	private void OnEnable() => Bubble.OnBubblePopped += PlayPopAudio;
-	
+
 	// Unsubscribe to the event
 	private void OnDisable() => Bubble.OnBubblePopped -= PlayPopAudio;
-	
+
 	private void PlayPopAudio() => _audioSource.Play();
 }
 
 public class Bubble : MonoBehaviour {
 	public static event Action OnBubblePopped;
-	
+
 	private void Pop() {
 		// Invoke the event for all subscribers
 		OnBubblePopped?.Invoke();
@@ -451,7 +456,7 @@ public enum GamePhase
 public abstract class GameLogicPhase : MonoBehaviour
 {
 	public abstract GamePhase ClassGamePhase { get; }
-	
+
 	// Add necessary variables here
 
 	public virtual void OnStart()
@@ -497,8 +502,8 @@ public class GameLogicPhase1 : GameLogicPhase
 
 		// Add code that should be executed on end here
 	}
-	
-	public override void OnUpdateWhileActive()
+
+	public override void UpdateWhileActive()
 	{
 		base.UpdateWhileActive();
 		// Add code that should be executed on update here
@@ -512,19 +517,19 @@ public class GameLogicPhase1 : GameLogicPhase
 ```csharp
 public class GameManager : MonoBehaviour {
 	GameLogicPhase currentGameLogicPhase;
-	
+
 	GameLogicPhase[] gameLogicPhases;
-	
+
 	void Awake() {
 		gameLogicPhases = FindObjectsOfType<GameLogicPhase>();
 	}
-	
+
 	void Update() {
 		if (currentGameLogicPhase != null) {
 			currentGameLogicPhase.UpdateWhileActive();
 		}
 	}
-	
+
 	void UpdatePhase(GamePhase nextPhase) {
 		if (currentGameLogicPhase != null) {
 			currentGameLogicPhase.OnEnd();
