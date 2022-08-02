@@ -347,7 +347,8 @@ using System;
 [Serializable]
 public class PlayerPosition
 {
-    public string classType = "PlayerPosition";
+    public static string classType = "PlayerPosition";
+    
     public int playerId;
     public float x;
     public float y;
@@ -356,6 +357,8 @@ public class PlayerPosition
 
 [Serializable]
 public class AllPlayerPositions {
+  public static string classType = "AllPlayerPositions"
+
   public PlayerPosition[] playerPositions;
 }
 ```
@@ -381,15 +384,16 @@ if (int.TryParse(incomingString, out _serverErrorCode)) {
 }
 ```
 
-3. When you work with different objects of classes that you send around, you will need a way to differentiate in between different types of message, before converting them a `class` object. You need to find out first what type of data you actually received. A simple way to do this, is to add a `string` property called `classType` to all of serializable classes. Then you can check every JSON object that you receive directly for the value of this property and this way decide on how to proceed.
+3. When you work with different objects of classes that you send around, you will need a way to differentiate in between different types of message, before converting them a `class` object. You need to find out first what type of data you actually received. A simple way to do this, is to add a `string` static property called `classType` to all of serializable classes. Then you can check every JSON object that you receive directly for the value of this property and this way decide on how to proceed.
 
-Here is an example
+Here is an example of a serializable class definition.
 
 ```csharp
 [Serializable]
 public class PlayerPosition
 {
-    public string classType = "PlayerPosition";
+    public static string classType = "PlayerPosition";
+    
     public int playerId;
     public float x;
     public float y;
@@ -397,13 +401,15 @@ public class PlayerPosition
 }
 ```
 
-After converting the `byte[]` data into `JSON string`, you can then check for `classType` like this:
+Then we need to add [this SimpleJSON script](https://github.com/endel/NativeWebSocket) to our project and add `using SimpleJSON;` to the top of our file.
+
+After adding the `SimpleJSON` script to our project, we can then parse the JSON and check the `classType` property like this:
 
 ```csharp
-var parsedJson = JSON.Parse(yourJsonString);
-string classType = N["classType"].Value;
+var parsedJson = JSON.Parse(incomingString);
+string classType = parsedJson["classType"].Value;
 
-if (classType == "PlayerPosition") {
+if (classType == PlayerPosition.classType) {
     // Convert incoming JSON to object of type `PlayerPosition`
 } else if (classType == ...) {
     // Check for other potential cases
@@ -415,6 +421,35 @@ if (classType == "PlayerPosition") {
 ```csharp
 YourClass receivedObject = JsonUtility.FromJson<YourClass>(incomingString);
 ```
+
+*Code Example for handling incoming data*
+An example of how the incoming message from the server can be deserialized within the WebSockets `OnMessage()` event handler
+```csharp
+  
+  private void OnMessage(byte[] inboundBytes) {
+    print("Message received");
+    print($"bytes: {inboundBytes}");
+    string inboundString = System.Text.Encoding.UTF8.GetString(inboundBytes);
+    print($"message: {inboundString}");
+    
+    
+    if (int.TryParse(inboundString, out serverErrorCode)) {
+      // If server returns an integer, it is an error
+      print($"Server Error: {serverErrorCode}");
+    } else {
+      JSONNode json = JSON.Parse(inboundString);
+      
+      if (json["classType"].Value == PlayerDataPackage.classType) {
+          PlayerDataPackage playerData = JsonUtility.FromJson<PlayerDataPackage>(inboundString);
+          print($"Received PlayerDataPackage || name: {playerData.name}, highScore: {playerData.highScore}");
+      } else if (json["classType"].Value == LevelDataPackage.classType) {
+          LevelDataPackage levelData = JsonUtility.FromJson<LevelDataPackage>(inboundString);
+          print($"Received LevelDataPackage || name: {levelData.mapTitle}, highScore: {levelData.difficultyLevel}");
+      }
+    }
+  }
+```
+
 
 
 ### Handle outgoing data
@@ -446,13 +481,156 @@ if (webSocket.State == WebSocketState.Open) {
 ```
 
 
+
+### Complete Unity WebSockets example implementation
+*Full Code for handling incoming and outgoing WebSockets data
+*
+```csharp
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using UnityEngine;
+using NativeWebSocket; // Source: https://github.com/endel/NativeWebSocket
+using SimpleJSON; // Source: https://github.com/Bunny83/SimpleJSON/blob/master/SimpleJSON.cs
+
+
+[Serializable]
+public struct PlayerDataPackage
+{
+    public static string classType = "PlayerDataPackage";
+
+    public string name;
+    public int highScore;
+
+    public PlayerDataPackage(string name, int highScore) {
+      this.name = name;
+      this.highScore = highScore;
+    }
+}
+
+
+[Serializable]
+public struct LevelDataPackage
+{
+    public static string classType = "LevelDataPackage";
+
+    public string mapTitle;
+    public int difficultyLevel;
+
+    public LevelDataPackage(string mapTitle, int difficultyLevel) {
+      this.mapTitle = mapTitle;
+      this.difficultyLevel = difficultyLevel;
+    }
+}
+
+
+public class WebSocketsConnection : MonoBehaviour
+{
+  private WebSocket webSocket;
+  private string serverUrl = "ws://my.uber.space:41860/nodejs-server";
+  private int serverErrorCode;
+
+
+  //////////////////////////////////
+  // MonoBehaviour Lifecycle Event Handlers
+  //////////////////////////////////
+
+  async void Start()
+  {
+    webSocket = new WebSocket(serverUrl);
+
+    webSocket.OnOpen += OnOpen;
+    webSocket.OnMessage += OnMessage;
+    webSocket.OnClose += OnClose;
+    webSocket.OnError += OnError;
+
+    await webSocket.Connect();
+  }
+
+  void Update()
+  {
+    #if !UNITY_WEBGL || UNITY_EDITOR
+      webSocket.DispatchMessageQueue();
+    #endif
+  }
+
+  private async void OnApplicationQuit()
+  {
+    await webSocket.Close();
+  }
+
+
+  //////////////////////////////////
+  // WebSockets Event Handlers
+  //////////////////////////////////
+
+  private void OnOpen() {
+    print("Connection opened");
+    Invoke("SendPlayerHighScore", 0f);
+  }
+
+  private void OnMessage(byte[] inboundBytes) {
+    print("Message received");
+    print($"bytes: {inboundBytes}");
+    string inboundString = System.Text.Encoding.UTF8.GetString(inboundBytes);
+    print($"message: {inboundString}");
+    
+    
+    if (int.TryParse(inboundString, out serverErrorCode)) {
+      // If server returns an integer, it is an error
+      print($"Server Error: {serverErrorCode}");
+    } else {
+      JSONNode json = JSON.Parse(inboundString);
+      
+      if (json["classType"].Value == PlayerDataPackage.classType) {
+          PlayerDataPackage playerData = JsonUtility.FromJson<PlayerDataPackage>(inboundString);
+          print($"Received PlayerDataPackage || name: {playerData.name}, highScore: {playerData.highScore}");
+      } else if (json["classType"].Value == LevelDataPackage.classType) {
+          LevelDataPackage levelData = JsonUtility.FromJson<LevelDataPackage>(inboundString);
+          print($"Received LevelDataPackage || name: {levelData.mapTitle}, highScore: {levelData.difficultyLevel}");
+      }
+    }
+  }
+
+  private void OnClose(WebSocketCloseCode closeCode) {
+    print($"Connection closed: {closeCode}");
+  }
+
+  private void OnError(string errorMessage) {
+    print($"Connection error: {errorMessage}");
+  }
+
+
+  //////////////////////////////////
+  // Helper Methods
+  //////////////////////////////////
+
+  private async void SendPlayerHighScore() {
+      string playerName = "Michael P.";
+      int playerHighScore = 12400;
+      PlayerDataPackage playerData = new PlayerDataPackage(playerName, playerHighScore);
+
+      if (webSocket.State == WebSocketState.Open) {
+          string json = JsonUtility.ToJson(playerData);
+          byte[] bytes = Encoding.UTF8.GetBytes(json);
+          await webSocket.Send(bytes);
+      }
+  }
+}
+
+```
+
+
+
 # Part 05:
 # Improve server-client communication
 
 ## Make sure to handle offline communication too
 
 It can always happen that your client does not have an active internet connection. In these cases you need to make sure that the game reacts accordingly.
-You can differentiate by checking for the 
+You can differentiate by checking for the `WebSocketState` like this:
 
 ```csharp
 if (webSocket.State == WebSocketState.Open) {
