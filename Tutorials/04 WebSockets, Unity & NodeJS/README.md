@@ -482,9 +482,10 @@ if (webSocket.State == WebSocketState.Open) {
 
 
 
-### Complete Unity WebSockets example implementation
-*Full Code for handling incoming and outgoing WebSockets data
-*
+### Complete Unity WebSockets implementation example
+*Example implementation for handling incoming and outgoing WebSockets data*
+
+
 ```csharp
 using System;
 using System.Collections;
