@@ -422,7 +422,7 @@ if (classType == PlayerPosition.classType) {
 YourClass receivedObject = JsonUtility.FromJson<YourClass>(incomingString);
 ```
 
-####Code Example for handling incoming data
+#### Code Example for handling incoming data
 An example of how the incoming message from the server can be deserialized within the WebSockets `OnMessage()` event handler:
 
 ```csharp
