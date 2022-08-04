@@ -335,7 +335,7 @@ function isJSON(string) {
 
 ## Unity
 
-### Create serializable classes
+## Create serializable classes
 
 All classes that you want to convert to `byte[]` and share with the server need to serializable. This means that they need to be explicitly labelled as `[Serializable]` and can only contain property types that are universal types like `float`, `int`, `bool`, `string` and `double` or contain property types that are themselve serialized.
 
@@ -363,7 +363,7 @@ public class AllPlayerPositions {
 }
 ```
 
-### Handle incoming data
+## Handle incoming data
 
 Important: You need to add `using System.Text` & `using System.IO` to the top of your script to use the serialization and deserialization methods.
 
@@ -401,7 +401,7 @@ public class PlayerPosition
 }
 ```
 
-Then we need to add [this SimpleJSON script](https://github.com/endel/NativeWebSocket) to our project and add `using SimpleJSON;` to the top of our file.
+Then we need to add [this SimpleJSON script](https://github.com/Bunny83/SimpleJSON/blob/master/SimpleJSON.cs) to our project and add `using SimpleJSON;` to the top of our file.
 
 After adding the `SimpleJSON` script to our project, we can then parse the JSON and check the `classType` property like this:
 
@@ -453,7 +453,7 @@ An example of how the incoming message from the server can be deserialized withi
 
 
 
-### Handle outgoing data
+## Handle outgoing data
 
 2. Create an `async` method: `private async void SendMessage() { ... }`
 
@@ -483,7 +483,7 @@ if (webSocket.State == WebSocketState.Open) {
 
 
 
-### Complete Unity WebSockets implementation example
+## Complete Unity WebSockets implementation example
 *Example implementation for handling incoming and outgoing WebSockets data*
 
 
