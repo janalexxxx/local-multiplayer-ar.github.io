@@ -501,7 +501,7 @@ using SimpleJSON; // Source: https://github.com/Bunny83/SimpleJSON/blob/master/S
 [Serializable]
 public struct PlayerDataPackage
 {
-    public static string classType = "PlayerDataPackage";
+    public string classType = "PlayerDataPackage";
 
     public string name;
     public int highScore;
@@ -516,7 +516,7 @@ public struct PlayerDataPackage
 [Serializable]
 public struct LevelDataPackage
 {
-    public static string classType = "LevelDataPackage";
+    public string classType = "LevelDataPackage";
 
     public string mapTitle;
     public int difficultyLevel;
@@ -586,10 +586,10 @@ public class WebSocketsConnection : MonoBehaviour
     } else {
       JSONNode json = JSON.Parse(inboundString);
       
-      if (json["classType"].Value == PlayerDataPackage.classType) {
+      if (json["classType"].Value == "PlayerDataPackage") {
           PlayerDataPackage playerData = JsonUtility.FromJson<PlayerDataPackage>(inboundString);
           print($"Received PlayerDataPackage || name: {playerData.name}, highScore: {playerData.highScore}");
-      } else if (json["classType"].Value == LevelDataPackage.classType) {
+      } else if (json["classType"].Value == "LevelDataPackage") {
           LevelDataPackage levelData = JsonUtility.FromJson<LevelDataPackage>(inboundString);
           print($"Received LevelDataPackage || name: {levelData.mapTitle}, highScore: {levelData.difficultyLevel}");
       }
