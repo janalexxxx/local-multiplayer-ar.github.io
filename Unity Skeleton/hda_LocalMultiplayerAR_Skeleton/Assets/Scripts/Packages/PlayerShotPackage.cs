@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct PlayerShotPackage
+public class PlayerShotPackage
 {
     public string packageType = "PlayerShotPackage";
 
