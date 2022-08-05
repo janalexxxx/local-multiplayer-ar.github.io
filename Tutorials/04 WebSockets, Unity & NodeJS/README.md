@@ -211,7 +211,7 @@ private async void SendEmptyMessageToServer() {
 2. Call the created method in your `OnOpen()` event handler after the server opened the connection
 
 ```csharp
-Invoke("SendEmptyMessageToServer", 0f);
+SendEmptyMessageToServer();
 ```
 
 
@@ -465,7 +465,7 @@ An example of how the incoming message from the server can be deserialized withi
 
 6. Send bytes to your server using Websocket: `await webSocket.Send(bytes);`
 
-7. Invoke `async` method: `Invoke("SendMessage", 0f);`
+7. Call `async` method: `SendMessage();`
 
 
 Full code:
@@ -570,7 +570,7 @@ public class WebSocketsConnection : MonoBehaviour
 
   private void OnOpen() {
     print("Connection opened");
-    Invoke("SendPlayerHighScore", 0f);
+    SendPlayerHighScore();
   }
 
   private void OnMessage(byte[] inboundBytes) {
