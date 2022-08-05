@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public struct PlayerLeftPackage
 {
-    public static string packageType = "PlayerLeftPackage";
+    public string packageType = "PlayerLeftPackage";
 
     public Player player;
 

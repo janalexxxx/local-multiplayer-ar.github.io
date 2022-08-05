@@ -56,23 +56,23 @@ public class WebSocketsConnection : MonoBehaviour
     } else {
       JSONNode json = JSON.Parse(inboundString);
       
-      if (json["packageType"].Value == PlayerJoinedPackage.packageType) {
+      if (json["packageType"].Value == "PlayerJoinedPackage") {
           // Received PlayerJoinedPackage
           PlayerJoinedPackage playerJoinedPackage = JsonUtility.FromJson<PlayerJoinedPackage>(inboundString);
           GameManager.Instance.DidReceivePlayerJoinedPackage(playerJoinedPackage);
-      } else if (json["packageType"].Value == GameUpdatePackage.packageType) {
+      } else if (json["packageType"].Value == "GameUpdatePackage") {
           // Received GameUpdatePackage
           GameUpdatePackage gameUpdatePackage = JsonUtility.FromJson<GameUpdatePackage>(inboundString);
           GameManager.Instance.DidReceiveGameUpdatePackage(gameUpdatePackage);
-      } else if (json["packageType"].Value == PlayerLeftPackage.packageType) {
+      } else if (json["packageType"].Value == "PlayerLeftPackage") {
           // Received PlayerLeftPackage
           PlayerLeftPackage playerLeftPackage = JsonUtility.FromJson<PlayerLeftPackage>(inboundString);
           GameManager.Instance.DidReceivePlayerLeftPackage(playerLeftPackage);
-      } else if (json["packageType"].Value == PlayerMovedPackage.packageType) {
+      } else if (json["packageType"].Value == "PlayerMovedPackage") {
           // Received PlayerMovedPackage
           PlayerMovedPackage playerMovedPackage = JsonUtility.FromJson<PlayerMovedPackage>(inboundString);
           GameManager.Instance.DidReceivePlayerMovedPackage(playerMovedPackage);
-      } else if (json["packageType"].Value == PlayerShotPackage.packageType) {
+      } else if (json["packageType"].Value == "PlayerShotPackage") {
           // Received PlayerShotPackage
           PlayerShotPackage playerShotPackage = JsonUtility.FromJson<PlayerShotPackage>(inboundString);
           GameManager.Instance.DidReceivePlayerShotPackage(playerShotPackage);

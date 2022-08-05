@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
 
     ////////////////////////
     // User Input Events
-    // [Probably called from a TouchManager, but not implemented yet]
     ////////////////////////
 
     public void DidReceiveMoveInput(Vector3 newPosition) {
